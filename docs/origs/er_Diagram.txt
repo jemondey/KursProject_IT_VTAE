@@ -1,0 +1,111 @@
+erDiagram
+    ПОЛЬЗОВАТЕЛЬ {
+        int user_id PK
+        string email
+        string password
+        numeric balance
+        string role
+        boolean blocked
+        string avatar_url
+        timestamp created_at
+    }
+
+    ИГРА{
+        int game_id PK
+        string title
+        text description
+        numeric price
+        date date_of_release
+        string developer
+        string publisher
+        string cover_url
+        boolean published
+    }
+
+    ЖАНР{
+        int genre_id PK
+        string name
+    }
+
+    СВЯЗИ_ИГРЫ_И_ЖАНРОВ{
+        int game_id FK
+        int genre_id FK
+        int game_genre_id PK
+    }
+
+    КОРЗИНА{
+        int cart_id PK
+        int user_id FK
+        int game_id FK
+        numeric price_at_add
+        timestamp added_at
+    }
+
+    ВИШЛИСТ{
+        int wishlist_id PK
+        int user_id FK
+        int game_id FK
+        timestamp added_at
+    }
+
+    ЗАКАЗ{
+        int order_id PK
+        int user_id FK
+        numeric total_amount
+        string status
+        timestamp created_at
+    }
+
+
+    ПОДРОБНОСТИ_ЗАКАЗА{
+        int order_item_id PK
+        int order_id FK
+        int game_id FK
+        numeric price
+    }
+
+    БИБЛИОТЕКА{
+        int library_item_id PK
+        int user_id FK
+        int game_id FK
+        timestamp purchased_at
+        int play_time_minutes
+        timestamp last_launch_at
+    }
+
+    ОТЗЫВЫ{
+        int reviews_id PK
+        int user_id FK
+        int game_id FK
+        text text_content
+        boolean recommended
+        timestamp created_at
+    }
+
+    СКРИНШОТЫ{
+        int screenshot_id PK
+        int game_id FK
+        string image_url
+        timestamp created_at
+    }
+    
+    ПОЛЬЗОВАТЕЛЬ ||--o{ КОРЗИНА : "имеет"
+    ПОЛЬЗОВАТЕЛЬ ||--o{ ВИШЛИСТ : "составляет"
+    ПОЛЬЗОВАТЕЛЬ ||--o{ ЗАКАЗ : "оформляет"
+    ПОЛЬЗОВАТЕЛЬ ||--o{ БИБЛИОТЕКА : "имеет"
+    ПОЛЬЗОВАТЕЛЬ ||--o{ ОТЗЫВЫ : "оставляет"
+
+    ИГРА ||--o{ КОРЗИНА : "добавляется"
+    ИГРА ||--o{ СКРИНШОТЫ : "имеет"
+    ИГРА ||--o{ ПОДРОБНОСТИ_ЗАКАЗА : "входит в"
+    ИГРА ||--o{ БИБЛИОТЕКА : "хранится в"
+    ИГРА ||--o{ СВЯЗИ_ИГРЫ_И_ЖАНРОВ : "относится к"
+    ИГРА ||--o{ ВИШЛИСТ : "добавляется в"
+    ИГРА ||--o{ ОТЗЫВЫ : "имеет"
+
+    ЖАНР ||--o{ СВЯЗИ_ИГРЫ_И_ЖАНРОВ : "классифицирует"
+    
+    ЗАКАЗ ||--o{ ПОДРОБНОСТИ_ЗАКАЗА : "имеет"
+
+
+
